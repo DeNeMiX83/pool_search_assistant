@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "pool-search-assistant"
+version = "0.1.0"
+description = ""
+authors = ["mihey <daniil53891@yandex.com>"]
+readme = "README.md"
+packages = [{include = "pool_search_assistant"}]
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.12"
+pandas = "^1.5.2"
+scipy = "^1.10.0"
+scikit-learn = "^1.2.0"
+pydantic = "^1.10.4"
+
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.19.4"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
