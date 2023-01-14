@@ -2,7 +2,7 @@ import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-from app.core.pool.usecase.protocols.pool_analysis import PoolAnalysisProtocol
+from app.core.pool.protocols.pool_analysis import PoolAnalysisProtocol
 from app.core.pool.entities.pool import PoolEntity
 
 class PoolAnalysisImp(PoolAnalysisProtocol):
@@ -11,9 +11,13 @@ class PoolAnalysisImp(PoolAnalysisProtocol):
         self.metadata = metadata
 
     def get_recommended_pools(self, pool_analysis: PoolEntity) -> list[PoolEntity]:
-        self.clean_up_data()
-        self.create_df_with_glued_columns()
-        self.calculate_vectors_by_pool(pool_analysis)
+        pools = []
+        if pool_analysis:
+            self.clean_up_data()
+            self.create_df_with_glued_columns()
+            self.calculate_vectors_by_pool(pool_analysis)
+            pools = self.get_n_top_recommended_pools(10)
+        return pools
 
     def clean_up_data(self) -> None:
         self.metadata = self.metadata.dropna()
@@ -29,7 +33,7 @@ class PoolAnalysisImp(PoolAnalysisProtocol):
 
     def calculate_vectors_by_pool(self, pool_analysis: PoolEntity) -> None:
         vectorizer = TfidfVectorizer()
-        vectors = self.vectorizer.fit_transform(self.metadata_glued_columns['glued_columns'])
+        vectors = vectorizer.fit_transform(self.metadata_glued_columns['glued_columns'])
 
         like = self.pool_to_str(pool_analysis)
 
@@ -43,7 +47,7 @@ class PoolAnalysisImp(PoolAnalysisProtocol):
     def get_n_top_recommended_pools(self, n: int) -> list[PoolEntity]:
         return [
             self.pool_str_to_pool(pool_str) 
-            for pool_str in self.metadata.head(1, n + 1).to_dict('records')
+            for pool_str in self.metadata.head(n).to_dict('records')
         ]
 
     def pool_to_str(self, pool: PoolEntity) -> str:

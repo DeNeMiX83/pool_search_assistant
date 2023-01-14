@@ -1,10 +1,14 @@
 from dataclasses import dataclass
 from app.core.shared.entities.entity import Entity
+from app.core.pool.entities.value_objects.address import LocationValueObject
+from app.core.pool.entities.value_objects.contacts import ContactsValueObject
 
 
 @dataclass()
 class PoolEntity(Entity):
     name: str
+    location: LocationValueObject 
+    contacts: ContactsValueObject
     has_equipment_rental: bool
     has_tech_service: bool
     has_dressing_room: bool
