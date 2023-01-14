@@ -7,11 +7,12 @@ from app.core.pool.protocols.dao.pool_read_dao import PoolReadDAOProtocol
 
 
 class GetRecommendedPoolsUseCase(UseCase):
-    def __init__(self, analyzer: PoolAnalysisProtocol, DAO: PoolReadDAOProtocol):
-        self.analyzer = analyzer
-        self.DAO = DAO
+    def __init__(self, analyzer: PoolAnalysisProtocol, dao: PoolReadDAOProtocol):
+        self._analyzer = analyzer
+        self._dao = dao
 
-    def execute(self, selected_pool_id: UUID) -> list[PoolEntity]:
-        recomended_pools = self.analyzer.get_recommended_pools(selected_pool_id)
+    async def execute(self, selected_pool_id: UUID) -> list[PoolEntity]:
+        pool = await self._dao.get_pool_by_id(selected_pool_id)
+        recomended_pools = self._analyzer.get_recommended_pools(pool)
         return recomended_pools
 

@@ -1,22 +1,36 @@
 from typing import Protocol
+from sqlalchemy.ext.asyncio import AsyncSession
+
 
 
 class DAOProtocol(Protocol):
+
+    def __init__(self, session) -> None:
+        raise NotImplementedError
     
     def commit(self) -> None:
         raise NotImplementedError
 
 
-class ReadDAOProtocol(DAOProtocol):
+class BaseDAO(DAOProtocol):
 
-    def get(self, pool_id: int) -> dict:
+    def __init__(self, session: AsyncSession) -> None:
+        self._session = session
+
+    async def commit(self) -> None:
+        await self._session.commit()
+
+
+class ReadDAOProtocol(BaseDAO):
+
+    def get(self, id: int) -> dict:
         raise NotImplementedError
 
     def get_all(self) -> list:
         raise NotImplementedError
 
 
-class WriteDAOProtocol(DAOProtocol):
+class WriteDAOProtocol(BaseDAO):
     
     def create(self, data: dict) -> None:
         raise NotImplementedError

@@ -5,5 +5,5 @@ class UseCase(ABC):
         ...
 
     @abstractmethod
-    def handle(self) -> None: 
+    def execute(self) -> None: 
         raise NotImplementedError
