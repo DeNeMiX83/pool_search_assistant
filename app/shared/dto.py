@@ -1,8 +1,11 @@
 from pydantic import BaseModel
 
 
-class Dto(BaseModel):
-    id: str = None
+class WriteDto(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class ReadDto(WriteDto):
+    id: str = None

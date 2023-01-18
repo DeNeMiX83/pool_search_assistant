@@ -1,9 +1,10 @@
 from fastapi import APIRouter, Depends, status
-from app.presentation.api.di import provide_get_recommended_pool
-
+from app.presentation.api.di import (
+    provide_get_recommended_pool_stub
+)
 #core
-from app.core.pool.usecase.get_recommended_pools import GetRecommendedPoolsUseCase
-from app.core.shared.entities.value_objects.uuid import UUID
+from app.core.pool.usecases.get_recommended_pools import GetRecommendedPoolsUseCase
+from app.core.shared.entities import value_objects as vo
 
 
 router = APIRouter()
@@ -13,8 +14,8 @@ router = APIRouter()
     status_code=status.HTTP_200_OK,
 )
 async def get_recommended_pool(
-    pool_id: UUID,
-    usecase: GetRecommendedPoolsUseCase = Depends(provide_get_recommended_pool),
+    pool_id: vo.UUID,
+    usecase: GetRecommendedPoolsUseCase = Depends(provide_get_recommended_pool_stub),
 ):
     pools = await usecase.execute(pool_id)
     return pools

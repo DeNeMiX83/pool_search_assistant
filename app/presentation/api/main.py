@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.presentation.api.di import setup_di
+from app.presentation.api.di.di import setup_di
 
 from app.presentation.api.routes import router
 

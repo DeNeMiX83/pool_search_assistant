@@ -1,9 +1,10 @@
 from typing import Protocol
 from sqlalchemy.ext.asyncio import AsyncSession
+from app.core.shared.entities.entity import Entity
+from app.core.shared.entities.value_objects.uuid import UUID
 
 
-
-class DAOProtocol(Protocol):
+class Dao(Protocol):
 
     def __init__(self, session) -> None:
         raise NotImplementedError
@@ -12,7 +13,7 @@ class DAOProtocol(Protocol):
         raise NotImplementedError
 
 
-class BaseDAO(DAOProtocol):
+class BaseDao(Dao):
 
     def __init__(self, session: AsyncSession) -> None:
         self._session = session
@@ -21,23 +22,23 @@ class BaseDAO(DAOProtocol):
         await self._session.commit()
 
 
-class ReadDAOProtocol(BaseDAO):
+class ReadDao(BaseDao):
 
-    def get(self, id: int) -> dict:
+    async def get(self, id: UUID) -> dict:
         raise NotImplementedError
 
-    def get_all(self) -> list:
+    async def get_all(self) -> list:
         raise NotImplementedError
 
 
-class WriteDAOProtocol(BaseDAO):
+class WriteDao(BaseDao):
     
-    def create(self, data: dict) -> None:
+    async def create(self, obj: Entity) -> None:
         raise NotImplementedError
 
-    def update(self, data: dict) -> None:
+    async def update(self, obj: Entity) -> None:
         raise NotImplementedError
 
-    def delete(self, data: dict) -> None:
+    async def delete(self, obj: Entity) -> None:
         raise NotImplementedError
     

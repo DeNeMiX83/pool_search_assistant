@@ -2,15 +2,15 @@ import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-from app.core.pool.protocols.pool_analysis import PoolAnalysisProtocol
-from app.core.pool.entities.pool import PoolEntity
+from app.core.pool.protocols.pool_analysis import PoolAnalysis
+from app.core.pool.entities.pool import Pool
 
-class PoolAnalysisImp(PoolAnalysisProtocol):
+class PoolAnalysisImp(PoolAnalysis):
     def __init__(self, metadata: pd.DataFrame) -> None:
         super().__init__()
         self.metadata = metadata
 
-    def get_recommended_pools(self, pool_analysis: PoolEntity) -> list[PoolEntity]:
+    def get_recommended_pools(self, pool_analysis: Pool) -> list[Pool]:
         pools = []
         if pool_analysis:
             self.clean_up_data()
@@ -31,7 +31,7 @@ class PoolAnalysisImp(PoolAnalysisProtocol):
         for column in self.data_for_analysis.columns:
             self.metadata_glued_columns['glued_columns'] += column + ': ' + self.data_for_analysis[column] + ' '
 
-    def calculate_vectors_by_pool(self, pool_analysis: PoolEntity) -> None:
+    def calculate_vectors_by_pool(self, pool_analysis: Pool) -> None:
         vectorizer = TfidfVectorizer()
         vectors = vectorizer.fit_transform(self.metadata_glued_columns['glued_columns'])
 
@@ -44,13 +44,13 @@ class PoolAnalysisImp(PoolAnalysisProtocol):
 
         metadata = metadata.sort_values(by=['cos_similarities'], ascending=[0])
 
-    def get_n_top_recommended_pools(self, n: int) -> list[PoolEntity]:
+    def get_n_top_recommended_pools(self, n: int) -> list[Pool]:
         return [
             self.pool_str_to_pool(pool_str) 
             for pool_str in self.metadata.head(n).to_dict('records')
         ]
 
-    def pool_to_str(self, pool: PoolEntity) -> str:
+    def pool_to_str(self, pool: Pool) -> str:
         return " ".join(
             map(
                 lambda x: f"{x[0]}: {x[1]}",
@@ -58,8 +58,8 @@ class PoolAnalysisImp(PoolAnalysisProtocol):
             )
         )
 
-    def pool_str_to_pool(self, pool: str) -> PoolEntity:
-        return PoolEntity(
+    def pool_str_to_pool(self, pool: str) -> Pool:
+        return Pool(
             **dict(
                 map(
                     lambda x: x.split(": "),

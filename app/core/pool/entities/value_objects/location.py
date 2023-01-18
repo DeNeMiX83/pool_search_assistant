@@ -1,9 +1,9 @@
 from dataclasses import dataclass
-from app.core.shared.entities.value_object import ValueObject
+from app.core.shared.entities.value_objects.value_object import ValueObject
 
 
 @dataclass()
-class LocationValueObject(ValueObject):
+class Location(ValueObject):
     administrative_area: str
     district: str
     address: str

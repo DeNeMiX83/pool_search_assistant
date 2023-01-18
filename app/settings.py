@@ -25,6 +25,18 @@ class PostgresSettings(BaseSettings):
         env_file_encoding = 'utf-8'
 
 
+class TokenSettings(BaseSettings):
+    secret: str = Field(..., env='SECRET')
+    algorithm: str = Field(..., env='JWT_ALGORITHM')
+    access_token_expire_minutes: int = Field(..., env='ACCESS_TOKEN_EXPIRE_MINUTES')
+    refresh_token_expire_minutes: int = Field(..., env='REFRESH_TOKEN_EXPIRE_MINUTES')
+    
+
+    class Config:
+        env_file = 'app/.env'
+        env_file_encoding = 'utf-8'
+
+
 class Settings(BaseSettings):
     project_name: str = Field(..., env='PROJECT_NAME')
     log_level: bool = Field(..., env='LOG_LEVEL')
@@ -33,6 +45,8 @@ class Settings(BaseSettings):
 
     postgres: PostgresSettings = PostgresSettings()
     postgres_url: str = postgres.dsn()
+
+    token: TokenSettings = TokenSettings()
 
     class Config:
         env_file = 'app/.env'
