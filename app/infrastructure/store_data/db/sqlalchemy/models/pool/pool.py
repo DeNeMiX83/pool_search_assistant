@@ -5,13 +5,11 @@ from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import composite
 import uuid
 
-from app.infrastructure.store_data.db.sqlalchemy.models.base import Base
+from app.infrastructure.store_data.db.sqlalchemy.models import Base
 
-from app.core.pool.entities.pool import PoolEntity
-from app.core.pool.entities.value_objects.address import LocationValueObject
-from app.core.pool.entities.value_objects.contacts import ContactsValueObject
+from app.core.pool import entities
+from app.core.pool.entities import value_objects as vo
 
-print(Base.metadata.tables)
 class Pool(Base):
     __tablename__ = 'pools'
 
@@ -39,22 +37,22 @@ class Pool(Base):
     how_suitable_for_disabled = Column(String, nullable=False)
 
 
-
 def pool_mapping(mapper_registry):
+    table = Pool.__table__
     mapper_registry.map_imperatively(
-        PoolEntity, Pool,
+        entities.Pool, table,
         properties={
             "location": composite(
-                LocationValueObject,
-                Pool.administrative_area,
-                Pool.district,
-                Pool.address,
+                vo.Location,
+                table.c.administrative_area,
+                table.c.district,
+                table.c.address,
             ),
             "contacts": composite(
-                ContactsValueObject,
-                Pool.email,
-                Pool.web_site,
-                Pool.phone_number,
+                vo.Contacts,
+                table.c.email,
+                table.c.web_site,
+                table.c.phone_number,
             ),
         }
     )

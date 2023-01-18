@@ -1,6 +1,15 @@
-from app.shared.dto import Dto
+from app.shared.dto import WriteDto
 
-class PoolDto(Dto):
+
+class PoolDto(WriteDto):
+    email: str
+    web_site: str
+    phone_number: str
+
+    administrative_area: str
+    district: str
+    address: str
+
     name: str
     has_equipment_rental: bool
     has_tech_service: bool
