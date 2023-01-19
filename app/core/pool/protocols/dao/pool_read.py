@@ -1,9 +1,8 @@
 from app.infrastructure.store_data.dao.base import ReadDao
-from app.core.pool.entities.pool import Pool
-from app.core.shared.entities.value_objects.uuid import UUID
+from app.core.pool import entities
 
 
 class PoolReadDao(ReadDao):
     
-    async def get_pool_by_id(self, pool_id: UUID) -> Pool:
+    async def get_by_id(self, pool_id: int) -> entities.Pool:
         raise NotImplementedError

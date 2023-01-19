@@ -40,7 +40,7 @@ def provide_get_recommended_pool(
     return pool_usecases.GetRecommendedPoolsUseCase(analyzer, dao)
 
 def get_analyzer() -> PoolAnalysis:
-    metadata = pd.read_csv('data.csv', low_memory=False)
+    metadata = pd.read_csv('app/resources/data.csv', low_memory=False)
     return PoolAnalysisImp(metadata)
 
 #User
