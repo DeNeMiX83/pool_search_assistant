@@ -5,7 +5,7 @@ from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import composite
 import uuid
 
-from app.infrastructure.store_data.db.sqlalchemy.models import Base
+from app.infrastructure.db.sqlalchemy.models import Base
 
 from app.core.user import entities
 from app.core.user.entities import value_objects as vo

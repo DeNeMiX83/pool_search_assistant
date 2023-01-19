@@ -1,22 +1,25 @@
 import pandas as pd
+from dataclasses import asdict
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 from app.core.pool.protocols.pool_analysis import PoolAnalysis
-from app.core.pool.entities.pool import Pool
+from app.core.pool import entities
+
+from pprint import pprint
 
 class PoolAnalysisImp(PoolAnalysis):
     def __init__(self, metadata: pd.DataFrame) -> None:
         super().__init__()
         self.metadata = metadata
 
-    def get_recommended_pools(self, pool_analysis: Pool) -> list[Pool]:
+    def get_recommended_pools_id(self, pool_analysis: entities.Pool) -> list[entities.Pool]:
         pools = []
         if pool_analysis:
             self.clean_up_data()
             self.create_df_with_glued_columns()
             self.calculate_vectors_by_pool(pool_analysis)
-            pools = self.get_n_top_recommended_pools(10)
+            pools = self.get_n_top_recommended_pools(3)
         return pools
 
     def clean_up_data(self) -> None:
@@ -31,7 +34,7 @@ class PoolAnalysisImp(PoolAnalysis):
         for column in self.data_for_analysis.columns:
             self.metadata_glued_columns['glued_columns'] += column + ': ' + self.data_for_analysis[column] + ' '
 
-    def calculate_vectors_by_pool(self, pool_analysis: Pool) -> None:
+    def calculate_vectors_by_pool(self, pool_analysis: entities.Pool) -> None:
         vectorizer = TfidfVectorizer()
         vectors = vectorizer.fit_transform(self.metadata_glued_columns['glued_columns'])
 
@@ -40,30 +43,20 @@ class PoolAnalysisImp(PoolAnalysis):
         new_entry = vectorizer.transform([like])
         cosine_similarities = cosine_similarity(new_entry, vectors).flatten()
 
-        metadata['cos_similarities'] = cosine_similarities
+        self.metadata['cos_similarities'] = cosine_similarities
 
-        metadata = metadata.sort_values(by=['cos_similarities'], ascending=[0])
+        self.metadata = self.metadata.sort_values(by=['cos_similarities'], ascending=[0])
 
-    def get_n_top_recommended_pools(self, n: int) -> list[Pool]:
+    def get_n_top_recommended_pools(self, n: int) -> list[entities.Pool]:
         return [
-            self.pool_str_to_pool(pool_str) 
-            for pool_str in self.metadata.head(n).to_dict('records')
+            pool_id for pool_id in self.metadata[1:1+n]['global_id']
         ]
 
-    def pool_to_str(self, pool: Pool) -> str:
+    def pool_to_str(self, pool: entities.Pool) -> str:
         return " ".join(
             map(
                 lambda x: f"{x[0]}: {x[1]}",
-                pool.dict().items()
+                asdict(pool).items()
             )
         )
-
-    def pool_str_to_pool(self, pool: str) -> Pool:
-        return Pool(
-            **dict(
-                map(
-                    lambda x: x.split(": "),
-                    pool.split(" ")
-                )
-            )
-        )
+        

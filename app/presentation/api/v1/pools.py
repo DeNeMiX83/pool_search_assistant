@@ -14,7 +14,7 @@ router = APIRouter()
     status_code=status.HTTP_200_OK,
 )
 async def get_recommended_pool(
-    pool_id: vo.UUID,
+    pool_id: int,
     usecase: GetRecommendedPoolsUseCase = Depends(provide_get_recommended_pool_stub),
 ):
     pools = await usecase.execute(pool_id)
