@@ -70,7 +70,7 @@ class AuthServiceImp(AuthService):
         return session_id
 
     async def logout(self, session_id: int) -> None:
-        self._dao_user_session.delete(session_id)
+        await self._dao_user_session.delete(session_id)
 
 
     

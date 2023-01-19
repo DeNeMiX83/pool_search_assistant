@@ -1,8 +1,7 @@
 from app.core.shared.usecase.usecase import UseCase
-from app.core.user.protocols.dao.user_read import UserReadDao
 from app.core.user import dto
 
-from app.core.user.services.auth_service import AuthService
+from app.core.user.services import AuthService
 
 
 

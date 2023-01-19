@@ -18,6 +18,9 @@ def provide_register_user_stub():
 def provide_login_user_stub():
     raise NotImplementedError
 
+def provide_logout_user_stub():
+    raise NotImplementedError
+
 def get_auth_service_stub():
     raise NotImplementedError
 

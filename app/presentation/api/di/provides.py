@@ -80,6 +80,12 @@ def provide_login_user(
 ) -> user_usecases.LoginUserUseCase:
     return user_usecases.LoginUserUseCase(auth_service)
 
+
+def provide_logout_user(
+    auth_service: AuthService = Depends(get_auth_service_stub),
+) -> user_usecases.LogoutUserUseCase:
+    return user_usecases.LogoutUserUseCase(auth_service)
+
 def get_auth_service(
     hasher_password: HasherPassword = Depends(get_hasher_password_stub),
     jwt_service: JwtService = Depends(get_jwt_service_stub),

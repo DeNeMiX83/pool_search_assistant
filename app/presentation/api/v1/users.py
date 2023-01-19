@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, status
 from app.presentation.api.di import (
     provide_register_user_stub,
     provide_login_user_stub,
+    provide_logout_user_stub,
 )
 
 from app.core.user.usecases import *
@@ -32,3 +33,15 @@ async def login_user(
 ):
     session_id = await usecase.execute(user)
     return {"sesion_id": session_id}
+
+
+@router.post(
+    path="/logout",
+    status_code=status.HTTP_200_OK,
+)
+async def logout_user(
+    user: dto.UserLogout,
+    usecase: LogoutUserUseCase = Depends(provide_logout_user_stub),
+):
+    await usecase.execute(user)
+    return {"message": "User logged out successfully"}
