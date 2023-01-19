@@ -1,12 +1,8 @@
-from app.core.user import entities
-from app.core.user.entities import value_objects as vo
-
 from app.core.shared.usecase.usecase import UseCase
 from app.core.user.protocols.dao.user_read import UserReadDao
 from app.core.user import dto
-from app.core.user.exceptions.user import UserNotFoundError, InvalidPasswordError
 
-from app.core.user.protocols.hasher_password import HasherPassword
+from app.core.user.services.auth_service import AuthService
 
 
 
@@ -14,18 +10,16 @@ class LoginUserUseCase(UseCase):
 
     def __init__(
         self, 
-        dao: UserReadDao,
-        hasher: HasherPassword
+        auth_service: AuthService,
     ):
-        self._dao = dao
-        self._hasher = hasher
+        self._auth_service = auth_service
+    async def execute(self, user: dto.UserLogin) -> str:
+        return await self._auth_service.login(user)
 
-    def execute(self, user: dto.User) -> str:
-        user = self._dao.get_by_email(user.email)
+        
 
-        if not user:
-            raise UserNotFoundError()
-        if not user.check_password(user.password):
-            raise InvalidPasswordError()
+        
 
-        return 
+        
+
+        

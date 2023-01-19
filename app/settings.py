@@ -24,6 +24,19 @@ class PostgresSettings(BaseSettings):
         env_file_encoding = 'utf-8'
 
 
+class RedisSettings(BaseSettings):
+    host: str = Field(..., env='REDIS_HOST')
+    port: int = Field(..., env='REDIS_PORT')
+    db: int = Field(..., env='REDIS_DB')
+
+    def dsn(self) -> str:
+        return f'redis://{self.host}:{self.port}/{self.db}'
+
+    class Config:
+        env_file = 'app/.env'
+        env_file_encoding = 'utf-8'
+
+
 class TokenSettings(BaseSettings):
     secret: str = Field(..., env='SECRET')
     algorithm: str = Field(..., env='JWT_ALGORITHM')
@@ -56,6 +69,8 @@ class Settings(BaseSettings):
 
     postgres: PostgresSettings = PostgresSettings()
     postgres_url: str = postgres.dsn()
+
+    redis: RedisSettings = RedisSettings()
 
     token: TokenSettings = TokenSettings()
 

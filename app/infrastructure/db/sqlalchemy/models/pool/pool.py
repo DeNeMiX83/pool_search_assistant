@@ -3,7 +3,7 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import composite
 
-from app.infrastructure.store_data.db.sqlalchemy.models import Base
+from app.infrastructure.db.sqlalchemy.models import Base
 
 from app.core.pool import entities
 from app.core.pool.entities import value_objects as vo

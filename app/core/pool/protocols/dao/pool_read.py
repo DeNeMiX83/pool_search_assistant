@@ -1,4 +1,4 @@
-from app.infrastructure.store_data.dao.base import ReadDao
+from app.infrastructure.db.sqlalchemy.dao.base import ReadDao
 from app.core.pool import entities
 
 

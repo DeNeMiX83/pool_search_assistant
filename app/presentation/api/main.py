@@ -3,7 +3,7 @@ from app.presentation.api.di.di import setup_di
 
 from app.presentation.api.routes import router
 
-from app.infrastructure.store_data.db.sqlalchemy.models.mapping import start_mappers
+from app.infrastructure.db.sqlalchemy.models.mapping import start_mappers
 
 
 def create_app() -> FastAPI:
