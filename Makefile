@@ -4,8 +4,10 @@ run:
 	make run-api
 
 run-api:
-	poetry run uvicorn app.presentation.api.main:app --reload --host $(HOST) --port $(BACKEND_PORT) \
-	--log-level ${LOG_LEVEL} 
+	poetry run gunicorn app.presentation.api.main:app --reload -b $(HOST):$(BACKEND_PORT) \
+	--worker-class uvicorn.workers.UvicornWorker \
+	--log-level $(LOG_LEVEL)
+
 
 update-dataset:
 	poetry run python -m app.presentation.cli.update_dataset.main
