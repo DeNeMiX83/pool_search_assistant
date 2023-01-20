@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  db:
+    container_name: ${PROJECT_NAME}_database
+    image: postgres:14
+    volumes:
+      - ${PROJECT_NAME}_database_data:/var/lib/postgresql/data
+    ports:
+      - ${HOST_POSTGRES_PORT}:${POSTGRES_PORT}
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+
+  backend:
+    container_name: ${PROJECT_NAME}_backend
+    build:
+      context: ../
+      dockerfile: deploy/backend.Dockerfile
+    ports:
+      - ${HOST_BACKEND_PORT}:${BACKEND_PORT}
+    depends_on:
+      - db
+      - redis
+    environment:
+      - POSTGRES_HOST=db
+      - REDIS_HOST=redis
+  
+  redis:
+    container_name: redis
+    image: redis:7
+    expose:
+      - ${REDIS_PORT}
+    depends_on:
+      - db
+
+volumes:
+  pool_search_assistant_database_data:

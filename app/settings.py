@@ -2,6 +2,8 @@ from pydantic import (
     BaseSettings, Field
 )
 
+env_file_path = 'deploy/.env'
+
 
 class PostgresSettings(BaseSettings):
     host: str = Field(..., env='POSTGRES_HOST')
@@ -20,7 +22,7 @@ class PostgresSettings(BaseSettings):
         )
 
     class Config:
-        env_file = 'app/.env'
+        env_file = env_file_path
         env_file_encoding = 'utf-8'
 
 
@@ -33,18 +35,7 @@ class RedisSettings(BaseSettings):
         return f'redis://{self.host}:{self.port}/{self.db}'
 
     class Config:
-        env_file = 'app/.env'
-        env_file_encoding = 'utf-8'
-
-
-class TokenSettings(BaseSettings):
-    secret: str = Field(..., env='SECRET')
-    algorithm: str = Field(..., env='JWT_ALGORITHM')
-    access_token_expire_minutes: int = Field(..., env='ACCESS_TOKEN_EXPIRE_MINUTES')
-    refresh_token_expire_minutes: int = Field(..., env='REFRESH_TOKEN_EXPIRE_MINUTES')
-    
-    class Config:
-        env_file = 'app/.env'
+        env_file = env_file_path
         env_file_encoding = 'utf-8'
 
 
@@ -57,27 +48,29 @@ class MosApiSettings(BaseSettings):
         return f'{self.mos_api_url}/{self.mos_api_dataset_id}'
 
     class Config:
-        env_file = 'app/.env'
+        env_file = env_file_path
         env_file_encoding = 'utf-8'
 
 
 class Settings(BaseSettings):
     project_name: str = Field(..., env='PROJECT_NAME')
-    log_level: bool = Field(..., env='LOG_LEVEL')
+    log_level: str = Field(..., env='LOG_LEVEL')
     host: str = Field(..., env='HOST')
     port: int = Field(..., env='HOST_BACKEND_PORT')
+    secret: str = Field(..., env='SECRET')
 
     postgres: PostgresSettings = PostgresSettings()
     postgres_url: str = postgres.dsn()
 
     redis: RedisSettings = RedisSettings()
 
-    token: TokenSettings = TokenSettings()
+    jwr_algorithm: str = Field(..., env='JWT_ALGORITHM')
+    password_algorithm: str = Field(..., env='PASSWORD_ALGORITHM')
 
     mos_api: MosApiSettings = MosApiSettings()
 
 
 
     class Config:
-        env_file = 'app/.env'
+        env_file = env_file_path
         env_file_encoding = 'utf-8'
