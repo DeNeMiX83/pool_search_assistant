@@ -1,9 +1,12 @@
 from passlib.context import CryptContext
 from app.core.user.protocols.hasher_password import HasherPassword
 
+from app.settings import Settings
+
 
 class HasherPasswordImp(HasherPassword):
-    _pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+    settings = Settings()
+    _pwd_context = CryptContext(schemes=[settings.password_algorithm], deprecated="auto")
 
     def hash(self, password: str) -> str:
         return self._pwd_context.hash(password)

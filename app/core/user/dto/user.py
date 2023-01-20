@@ -1,4 +1,5 @@
 from app.shared.dto import WriteDto
+from app.shared.dto import BaseDto
 
 
 class User(WriteDto):
@@ -8,3 +9,7 @@ class User(WriteDto):
 
 class UserLogin(User):
     pass
+
+
+class UserLogout(BaseDto):
+    session_id: str

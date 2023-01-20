@@ -23,6 +23,7 @@ target_metadata = Base.metadata
 
 def run_migrations_offline() -> None:
     url = postgres_settings.dsn()
+    print(url, 'FSFEWFEWFWEFRWEFWEF')
     context.configure(
         url=url,
         target_metadata=target_metadata,

@@ -12,6 +12,7 @@ from app.presentation.api.di.stubs import (
 
     provide_register_user_stub,
     provide_login_user_stub,
+    provide_logout_user_stub,
     get_auth_service_stub,
     get_hasher_password_stub,
     get_jwt_service_stub,
@@ -22,6 +23,7 @@ from app.presentation.api.di.provides import (
     get_analyzer,
     provide_register_user,
     provide_login_user,
+    provide_logout_user,
     get_auth_service,
     get_hasher_password,
     get_jwt_service,
@@ -37,6 +39,7 @@ def setup_di(app: FastAPI):
 
     app.dependency_overrides[provide_register_user_stub] = provide_register_user
     app.dependency_overrides[provide_login_user_stub] = provide_login_user
+    app.dependency_overrides[provide_logout_user_stub] = provide_logout_user
     app.dependency_overrides[get_auth_service_stub] = get_auth_service
     app.dependency_overrides[get_hasher_password_stub] = get_hasher_password
     app.dependency_overrides[get_jwt_service_stub] = get_jwt_service

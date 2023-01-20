@@ -1,11 +1,14 @@
 from pydantic import BaseModel
 
 
-class WriteDto(BaseModel):
-
+class BaseDto(BaseModel):
     class Config:
         orm_mode = True
 
 
-class ReadDto(WriteDto):
+class WriteDto(BaseDto):
+    pass
+
+
+class ReadDto(BaseDto):
     id: str = None
