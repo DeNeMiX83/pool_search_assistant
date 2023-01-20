@@ -5,6 +5,10 @@ from app.presentation.api.di.di import setup_di
 from app.presentation.api.routes import router
 
 from app.infrastructure.db.sqlalchemy.models.mapping import start_mappers
+from app.settings import Settings
+
+settings = Settings()
+
 
 
 def custom_openapi():
@@ -26,7 +30,10 @@ def custom_openapi():
 
 
 def create_app() -> FastAPI:
-    app = FastAPI()
+    app = FastAPI(
+        root_path=settings.root_path,
+        docs_url=settings.api_url + settings.docs_url,
+    )
 
     start_mappers()
     setup_di(app)
