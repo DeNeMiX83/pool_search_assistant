@@ -4,6 +4,7 @@ from .stubs import ( # noqa
     provide_get_recommended_pool_stub,
     provide_like_pool_stub,
     provide_unlike_pool_stub,
+    get_like_pools_by_user_id_stub,
     provide_analyzer_stub,
     provide_register_user_stub,
     provide_login_user_stub,

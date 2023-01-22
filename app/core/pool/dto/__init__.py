@@ -1,1 +1,1 @@
-from .pool import PoolCreate, PoolLike, PoolUnlike # noqa
+from .pool import PoolCreate, PoolLike, PoolUnlike, LikePools # noqa

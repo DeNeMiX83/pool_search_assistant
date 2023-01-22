@@ -12,6 +12,7 @@ from app.presentation.api.di import (
     provide_analyzer_stub,
     provide_like_pool_stub,
     provide_unlike_pool_stub,
+    get_like_pools_by_user_id_stub,
     provide_register_user_stub,
     provide_login_user_stub,
     provide_logout_user_stub,
@@ -26,6 +27,7 @@ from app.presentation.api.di.provides import (
     provide_analyzer,
     provide_like_pool,
     provide_unlike_pool,
+    get_like_pools_by_user_id,
     provide_register_user,
     provide_login_user,
     provide_logout_user,
@@ -54,6 +56,7 @@ def setup_di(app: FastAPI, settings: Settings):
         provide_analyzer_stub: provide_analyzer,
         provide_like_pool_stub: provide_like_pool,
         provide_unlike_pool_stub: provide_unlike_pool,
+        get_like_pools_by_user_id_stub: get_like_pools_by_user_id,
     })
 
     app.dependency_overrides.update({

@@ -2,13 +2,12 @@ from sqlalchemy import select
 
 from app.core.pool import entities
 
+from app.infrastructure.db.sqlalchemy.dao.base import BaseDao
 from app.core.pool.protocols.dao.pool_read import PoolReadDao
-from app.core.shared.entities.value_objects.uuid import UUID
 
 
-class PoolReadDaoImp(PoolReadDao):
-    
-    async def get_by_id(self, pool_id: int) -> entities.Pool:
+class PoolReadDaoImp(BaseDao, PoolReadDao):
+    async def get(self, pool_id: int) -> entities.Pool:
         stmt = select(entities.Pool).where(entities.Pool.id == pool_id)
         result = await self._session.execute(stmt)
         return result.scalars().first()

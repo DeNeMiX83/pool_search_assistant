@@ -3,6 +3,7 @@ from app.presentation.api.di import (
     provide_get_recommended_pool_stub,
     provide_like_pool_stub,
     provide_unlike_pool_stub,
+    get_like_pools_by_user_id_stub,
     get_user_data_by_session_id_stub,
 )
 
@@ -16,16 +17,23 @@ router = APIRouter()
 
 
 @router.get(
-    path="",
+    path="/recommended",
     status_code=status.HTTP_200_OK,
 )
 async def get_recommended_pool(
-    pool_id: int,
+    like_pool_entities: dict = Depends(get_like_pools_by_user_id_stub),
     usecase: GetRecommendedPoolsUseCase = Depends(
         provide_get_recommended_pool_stub
     ),
 ):
-    pools = await usecase.execute(pool_id)
+    if not like_pool_entities:
+        return HTTPException(status_code=404, detail="No liked pools")
+    
+    like_pools = []
+    for pool in like_pool_entities:
+        like_pools.append(pool["pool_id"])
+    like_pools_dto = dto.LikePools(pool_ids=like_pools)
+    pools = await usecase.execute(like_pools_dto)
     return pools
 
 

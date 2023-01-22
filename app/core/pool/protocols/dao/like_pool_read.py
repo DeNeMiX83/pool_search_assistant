@@ -8,3 +8,6 @@ class LikePoolReadDao(Protocol):
         self, pool_id: int, user_id: vo.UUID
     ) -> entities.PoolLike:
         raise NotImplementedError
+
+    async def get_by_user_id(self, user_id: int) -> list[entities.PoolLike]:
+        raise NotImplementedError

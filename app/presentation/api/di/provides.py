@@ -9,6 +9,7 @@ from app.infrastructure.db.redis import dao as redis_dao
 
 # Pool
 from app.core.pool import usecases as pool_usecases
+from app.core.pool import dto as pool_dto
 
 from app.core.pool.protocols.pool_analysis import PoolAnalysis
 
@@ -33,6 +34,7 @@ from app.presentation.api.di.stubs import (
     provide_auth_service_stub,
     provide_hasher_password_stub,
     provide_jwt_service_stub,
+    get_user_data_by_session_id_stub,
 )
 
 
@@ -96,6 +98,15 @@ def provide_unlike_pool(
     ),
 ) -> pool_usecases.UnlikePoolUseCase:
     return pool_usecases.UnlikePoolUseCase(dao_read, dao_write, committer)
+
+
+async def get_like_pools_by_user_id(
+    user_data: dict = Depends(get_user_data_by_session_id_stub),
+    dao: sqlalchemy_dao.Dao = Depends(
+        get_sqlalchemy_dao(sqlalchemy_dao.LikePoolReadDaoImp)
+    ),
+) -> list[pool_dto.PoolLike]:
+    return await dao.get_by_user_id(user_data["user_id"])
 
 
 # User
