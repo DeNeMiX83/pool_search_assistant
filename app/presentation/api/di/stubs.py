@@ -23,6 +23,10 @@ def provide_unlike_pool_stub():
     raise NotImplementedError
 
 
+def get_like_pools_by_user_id_stub():
+    raise NotImplementedError
+
+
 # User
 def provide_register_user_stub():
     raise NotImplementedError

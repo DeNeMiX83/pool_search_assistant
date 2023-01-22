@@ -32,3 +32,7 @@ class PoolLike(BaseDto):
 
 class PoolUnlike(PoolLike):
     id: vo.UUID
+
+
+class LikePools(BaseDto):
+    pool_ids: list[int]

@@ -28,3 +28,10 @@ class LikePoolReadDaoImp(
         ))
         result = await self._session.execute(stmt)
         return result.scalars().first()
+
+    async def get_by_user_id(self, user_id: int) -> list[entities.PoolLike]:
+        stmt = select(entities.PoolLike).where(
+            entities.PoolLike.user_id == user_id
+        )
+        result = await self._session.execute(stmt)
+        return result.scalars().all()
