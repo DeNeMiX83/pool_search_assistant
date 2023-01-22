@@ -1,2 +1,1 @@
-from .user import User
-from .user import user_mapping
+from .user import User, user_mapping # noqa

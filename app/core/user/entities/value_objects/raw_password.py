@@ -22,10 +22,16 @@ class RawPassword(ValueObject):
             raise ValueError("Password must contain at least one digit")
 
         if not any(char.isupper() for char in v):
-            raise ValueError("Password must contain at least one uppercase letter")
+            raise ValueError(
+                "Password must contain at least one uppercase letter"
+            )
 
         if not any(char.islower() for char in v):
-            raise ValueError("Password must contain at least one lowercase letter")
+            raise ValueError(
+                "Password must contain at least one lowercase letter"
+            )
 
         if not any(char in "!@#$%^&*()_+" for char in v):
-            raise ValueError("Password must contain at least one special character")
+            raise ValueError(
+                "Password must contain at least one special character"
+            )

@@ -1,4 +1,5 @@
 from app.core.user.services import AuthService
+from app.core.user import dto
 
 
 class LogoutUserUseCase:
@@ -9,5 +10,5 @@ class LogoutUserUseCase:
     ):
         self._auth_service = auth_service
 
-    def execute(self, session_id: str) -> None:
-        return self._auth_service.logout(session_id)
+    async def execute(self, user: dto.UserLogout) -> None:
+        await self._auth_service.logout(user)

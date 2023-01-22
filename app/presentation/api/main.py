@@ -7,9 +7,6 @@ from app.presentation.api.routes import router
 from app.infrastructure.db.sqlalchemy.models.mapping import start_mappers
 from app.settings import Settings
 
-settings = Settings()
-
-
 
 def custom_openapi():
     if app.openapi_schema:
@@ -17,7 +14,7 @@ def custom_openapi():
     openapi_schema = get_openapi(
         title="Pool search API",
         version="1.0.0",
-        description="The data is taken from the open data source at the link: \n\
+        description="The data is taken from the open data source at the link: \n \
                      https://data.mos.ru/opendata/7708308010-basseyny-plavatelnye-krytye",
         routes=app.routes,
     )
@@ -28,20 +25,20 @@ def custom_openapi():
     return app.openapi_schema
 
 
-
 def create_app() -> FastAPI:
+    settings = Settings()
+
     app = FastAPI(
         root_path=settings.root_path,
         docs_url=settings.api_url + settings.docs_url,
     )
-
     start_mappers()
-    setup_di(app)
+    setup_di(app, settings)
+
     app.include_router(router)
-    
+    app.openapi = custom_openapi
+
     return app
 
 
 app = create_app()
-app.openapi = custom_openapi
-

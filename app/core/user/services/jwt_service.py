@@ -9,14 +9,14 @@ class JwtServiceImp(JwtService):
 
     def encode(self, payload: dict) -> str:
         return jwt.encode(
-            payload, 
-            self.settings.secret, 
+            payload,
+            self.settings.secret,
             algorithm=self.settings.jwr_algorithm,
         )
 
     def decode(self, token: str) -> dict:
         return jwt.decode(
-            token, 
-            self.settings.secret, 
-            algorithm=self.settings.jwr_algorithm
+            token,
+            self.settings.secret,
+            algorithms=[self.settings.jwr_algorithm]
         )

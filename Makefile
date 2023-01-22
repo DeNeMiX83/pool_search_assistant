@@ -28,4 +28,4 @@ compose-update-dataset:
 	docker exec -it ${pool_search_assistant}_backend make update-dataset
 
 docker-rm-volume:
-	docker volume rm -f workout_postgres_data
+	docker volume rm -f ${PROJECT_NAME}_database_data

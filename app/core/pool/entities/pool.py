@@ -1,5 +1,4 @@
-from dataclasses import dataclass
-from dataclasses import field
+from dataclasses import dataclass, field
 from app.core.shared.entities.entity import Entity
 from app.core.pool.entities.value_objects.location import Location
 from app.core.pool.entities.value_objects.contacts import Contacts
@@ -9,7 +8,7 @@ from app.core.pool.entities.value_objects.contacts import Contacts
 class Pool(Entity):
     id: int = field(init=False, default=None)
     name: str
-    location: Location 
+    location: Location
     contacts: Contacts
     has_equipment_rental: bool
     has_tech_service: bool

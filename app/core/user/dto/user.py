@@ -1,14 +1,18 @@
-from app.shared.dto import WriteDto
 from app.shared.dto import BaseDto
 
 
-class User(WriteDto):
+class User(BaseDto):
+    email: str
+
+
+class UserLogin(User):
     email: str
     password: str
 
 
-class UserLogin(User):
-    pass
+class UserRegister(User):
+    username: str
+    raw_password: str
 
 
 class UserLogout(BaseDto):
