@@ -9,5 +9,5 @@ class PoolAnalysis(Protocol):
 
     def get_recommended_pools_id(
         self, pool_analysis: entities.Pool
-    ) -> list[entities.Pool]:
+    ) -> list[int]:
         raise NotImplementedError

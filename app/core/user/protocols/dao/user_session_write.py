@@ -10,5 +10,5 @@ class UserSessionWriteDao(Protocol):
     async def update(self, session: dto.SessionWrite) -> None:
         raise NotImplementedError
 
-    async def delete(self, session: dto.SessionWrite) -> None:
+    async def delete(self, session_id: str) -> None:
         raise NotImplementedError

@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, status, Response
+from fastapi import APIRouter, Depends, status, Response, HTTPException
 from app.presentation.api.di import (
     provide_register_user_stub,
     provide_login_user_stub,
@@ -60,5 +60,11 @@ async def logout_user(
     user: dto.UserLogout,
     usecase: LogoutUserUseCase = Depends(provide_logout_user_stub),
 ):
-    await usecase.execute(user)
+    try:
+        await usecase.execute(user)
+    except AuthError as e:
+        return HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail=str(e),
+        )
     return {"message": "User logged out successfully"}

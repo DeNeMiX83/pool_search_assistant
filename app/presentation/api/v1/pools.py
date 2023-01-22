@@ -28,10 +28,8 @@ async def get_recommended_pool(
 ):
     if not like_pool_entities:
         return HTTPException(status_code=404, detail="No liked pools")
-    
-    like_pools = []
-    for pool in like_pool_entities:
-        like_pools.append(pool["pool_id"])
+
+    like_pools = [pool.pool_id for pool in like_pool_entities]
     like_pools_dto = dto.LikePools(pool_ids=like_pools)
     pools = await usecase.execute(like_pools_dto)
     return pools

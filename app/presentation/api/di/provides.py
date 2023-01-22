@@ -131,7 +131,10 @@ def provide_logout_user(
 def provide_auth_service(
     hasher_password: HasherPassword = Depends(provide_hasher_password_stub),
     jwt_service: JwtService = Depends(provide_jwt_service_stub),
-    user_session_dao: redis_dao.Dao = Depends(
+    user_session_dao_read: redis_dao.Dao = Depends(
+        get_redis_dao(redis_dao.UserSessionReadDaoImp)
+    ),
+    user_session_dao_write: redis_dao.Dao = Depends(
         get_redis_dao(redis_dao.UserSessionWtiteDaoImp)
     ),
     user_write_dao: sqlalchemy_dao.Dao = Depends(
@@ -145,12 +148,13 @@ def provide_auth_service(
     ),
 ) -> AuthService:
     return AuthServiceImp(
-        hasher_password,
-        jwt_service,
-        user_session_dao,
-        user_write_dao,
-        user_read_dao,
-        committer,
+        hasher_password=hasher_password,
+        jwt_service=jwt_service,
+        dao_user_session_write=user_session_dao_write,
+        dao_user_session_read=user_session_dao_read,
+        dao_user_write=user_write_dao,
+        dao_user_read=user_read_dao,
+        committer=committer,
     )
 
 
@@ -169,11 +173,12 @@ async def get_user_data_by_session_id(
     ),
     jwt_service: JwtService = Depends(provide_jwt_service_stub),
 ):
-    session_data = await dao.get(session_id)
-    if not session_data:
+    try:
+        session_data = await dao.get(session_id)
+    except ValueError as e:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="invalid session")
+            detail=str(e))
 
     user_data = jwt_service.decode(session_data.jwt_token)
     return user_data

@@ -25,7 +25,7 @@ compose-up:
 	docker compose -f ./deploy/prod.docker-compose.yml --env-file deploy/.env up
 
 compose-update-dataset:
-	docker exec -it ${pool_search_assistant}_backend make update-dataset
+	docker exec -it ${PROJECT_NAME}_backend make update-dataset
 
 docker-rm-volume:
 	docker volume rm -f ${PROJECT_NAME}_database_data

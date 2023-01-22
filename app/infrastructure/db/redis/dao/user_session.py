@@ -18,17 +18,14 @@ class UserSessionWtiteDaoImp(BaseDao, UserSessionWriteDao):
 
         await self._redis.set(session_id, jwt_token)
 
-    async def delete(self, session: dto.SessionWrite) -> None:
-        session_id = session.session_id
+    async def delete(self, session_id: str) -> None:
         await self._redis.delete(session_id)
 
 
 class UserSessionReadDaoImp(BaseDao, UserSessionReadDao):
 
     async def get(self, session_id: str) -> dto.SessionRead | None:
-        if not session_id:
-            return None
         jwt_token = await self._redis.get(session_id)
         if not jwt_token:
-            return None
+            raise ValueError("session not found")
         return dto.SessionRead(jwt_token=jwt_token)
