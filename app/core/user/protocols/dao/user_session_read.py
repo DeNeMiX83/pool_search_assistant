@@ -3,5 +3,5 @@ from app.core.user import dto
 
 
 class UserSessionReadDao(Protocol):
-    async def get(self, session_id: str) -> dto.SessionRead:
+    async def get(self, session_id: str) -> dto.SessionRead | None:
         raise NotImplementedError

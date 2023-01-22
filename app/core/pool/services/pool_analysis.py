@@ -13,7 +13,7 @@ class PoolAnalysisImp(PoolAnalysis):
 
     def get_recommended_pools_id(
         self, pool_analysis: entities.Pool
-    ) -> list[entities.Pool]:
+    ) -> list[int]:
         pools = []
         if pool_analysis:
             self.clean_up_data()
@@ -53,8 +53,8 @@ class PoolAnalysisImp(PoolAnalysis):
             by=["cos_similarities"], ascending=[0]
         )
 
-    def get_n_top_recommended_pools(self, n: int) -> list[entities.Pool]:
-        return [pool_id for pool_id in self.metadata[1 : 1 + n]["global_id"]]
+    def get_n_top_recommended_pools(self, n: int) -> list[int]:
+        return [pool_id for pool_id in self.metadata[1:1 + n]["global_id"]]
 
     def pool_to_str(self, pool: entities.Pool) -> str:
         return " ".join(map(lambda x: f"{x[0]}: {x[1]}", asdict(pool).items()))

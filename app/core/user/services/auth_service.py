@@ -5,6 +5,7 @@ from app.core.user.protocols.jwt_service import JwtService
 from app.core.user.protocols.auth_sevice import AuthService
 
 from app.core.user.protocols.dao.user_session_write import UserSessionWriteDao
+from app.core.user.protocols.dao.user_session_read import UserSessionReadDao
 from app.core.user.protocols.dao.user_write import UserWriteDao
 from app.core.user.protocols.dao.user_read import UserReadDao
 from app.core.shared.protocols import Committer
@@ -22,14 +23,16 @@ class AuthServiceImp(AuthService):
         self,
         hasher_password: HasherPassword,
         jwt_service: JwtService,
-        dao_user_session: UserSessionWriteDao,
+        dao_user_session_write: UserSessionWriteDao,
+        dao_user_session_read: UserSessionReadDao,
         dao_user_write: UserWriteDao,
         dao_user_read: UserReadDao,
         committer: Committer,
     ):
         self._hasher_password = hasher_password
         self._jwt_service = jwt_service
-        self._dao_user_session = dao_user_session
+        self._dao_user_session_write = dao_user_session_write
+        self._dao_user_session_read = dao_user_session_read
         self._dao_user_write = dao_user_write
         self._dao_user_read = dao_user_read
         self._committer = committer
@@ -77,10 +80,14 @@ class AuthServiceImp(AuthService):
             session_id=session_id, jwt_token=jwt_token
         )
 
-        await self._dao_user_session.create(session_dto)
+        await self._dao_user_session_write.create(session_dto)
 
         return session_id
 
     async def logout(self, user: dto.UserLogout) -> None:
         session_id = user.session_id
-        await self._dao_user_session.delete(session_id)
+        try:
+            await self._dao_user_session_read.get(session_id)
+        except ValueError as e:
+            raise AuthError(e)
+        await self._dao_user_session_write.delete(session_id)

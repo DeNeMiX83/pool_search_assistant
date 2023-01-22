@@ -16,5 +16,10 @@ class GetRecommendedPoolsUseCase(UseCase[dto.LikePools, list[entities.Pool]]):
 
     async def execute(self, like_pools: dto.LikePools) -> list[entities.Pool]:
         pool = await self._dao.get(like_pools.pool_ids[0])
-        recomended_pools = self._analyzer.get_recommended_pools_id(pool)
+        recomended_pool_id = self._analyzer.get_recommended_pools_id(pool)
+       
+        recomended_pools = []
+        for pool_id in recomended_pool_id:
+            recomended_pools.append(await self._dao.get(pool_id))
+
         return recomended_pools

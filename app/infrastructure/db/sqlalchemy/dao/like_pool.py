@@ -10,7 +10,7 @@ class LikePoolWriteDaoImp(
     BaseDao, LikePoolWriteDao
 ):
     async def create(self, like_pool: entities.PoolLike) -> None:
-        await self._session.add(like_pool)
+        self._session.add(like_pool)
 
     async def delete(self, like_pool: entities.PoolLike) -> None:
         await self._session.delete(like_pool)

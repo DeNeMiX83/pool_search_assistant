@@ -27,4 +27,4 @@ class LikePoolUseCase(UseCase[dto.PoolLike, None]):
             await self._committer.commit()
         except IntegrityError:
             await self._committer.rollback()
-            raise ValueError("Pool not found")
+            raise ValueError("Pool not found or user already liked it")
