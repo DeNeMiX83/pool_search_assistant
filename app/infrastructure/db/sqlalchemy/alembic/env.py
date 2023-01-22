@@ -23,7 +23,8 @@ target_metadata = Base.metadata
 
 def run_migrations_offline() -> None:
     url = postgres_settings.dsn()
-    print(url, 'FSFEWFEWFWEFRWEFWEF')
+    print(url, "FDFFSDFSDFSF")
+
     context.configure(
         url=url,
         target_metadata=target_metadata,
@@ -47,7 +48,7 @@ async def run_migrations_online() -> None:
     if configuration is not None:
         configuration["sqlalchemy.url"] = postgres_settings.dsn()
     else:
-        raise ValueError("Configuration is None")   
+        raise ValueError("Configuration is None")
 
     connectable = async_engine_from_config(
         configuration,

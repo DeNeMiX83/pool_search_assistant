@@ -1,13 +1,9 @@
 from redis.asyncio import Redis
-from app.settings import RedisSettings
 
-settings = RedisSettings()
 
-async def redis_factory() -> Redis:
+def redis_factory(host: str, port: int, db: str) -> Redis:
     return Redis(
-        host=settings.host,
-        port=settings.port,
-        db=settings.db,
+        host=host,
+        port=port,
+        db=db,
     )
-
-    

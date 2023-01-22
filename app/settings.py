@@ -73,8 +73,6 @@ class Settings(BaseSettings):
 
     mos_api: MosApiSettings = MosApiSettings()
 
-
-
     class Config:
         env_file = env_file_path
         env_file_encoding = 'utf-8'

@@ -16,7 +16,7 @@ class User(Base):
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
 
-    _email = Column("email", String, nullable=False)
+    _email = Column("email", String, nullable=False, unique=True)
     _username = Column("username", String, nullable=False)
     _hashed_password = Column("hashed_password", String, nullable=False)
 

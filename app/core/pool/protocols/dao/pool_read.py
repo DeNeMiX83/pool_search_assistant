@@ -1,8 +1,8 @@
-from app.infrastructure.db.sqlalchemy.dao.base import ReadDao
+from typing import Protocol
 from app.core.pool import entities
 
 
-class PoolReadDao(ReadDao):
+class PoolReadDao(Protocol):
     
     async def get_by_id(self, pool_id: int) -> entities.Pool:
         raise NotImplementedError

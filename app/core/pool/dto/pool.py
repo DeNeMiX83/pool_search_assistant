@@ -1,7 +1,8 @@
-from app.shared.dto import WriteDto
+from app.shared.dto import BaseDto
+from app.core.shared.entities import value_objects as vo
 
 
-class PoolDto(WriteDto):
+class PoolCreate(BaseDto):
     email: str
     web_site: str
     phone_number: str
@@ -22,3 +23,12 @@ class PoolDto(WriteDto):
     has_music: bool
     is_paid: bool
     how_suitable_for_disabled: str
+
+
+class PoolLike(BaseDto):
+    user_id: vo.UUID
+    pool_id: int
+
+
+class PoolUnlike(PoolLike):
+    id: vo.UUID

@@ -1,8 +1,8 @@
-from app.infrastructure.db.redis.dao.base import WriteDao
+from typing import Protocol
 from app.core.user import dto
 
 
-class UserSessionWriteDao(WriteDao):
+class UserSessionWriteDao(Protocol):
 
     async def create(self, session: dto.SessionWrite) -> None:
         raise NotImplementedError
@@ -12,4 +12,3 @@ class UserSessionWriteDao(WriteDao):
 
     async def delete(self, session: dto.SessionWrite) -> None:
         raise NotImplementedError
-    
