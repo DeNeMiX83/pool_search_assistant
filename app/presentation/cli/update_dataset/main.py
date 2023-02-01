@@ -1,9 +1,6 @@
-import os
-
 import requests
 import urllib3
 import ssl
-from pprint import pprint
 import re
 
 import csv

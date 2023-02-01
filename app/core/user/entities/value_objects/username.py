@@ -2,6 +2,7 @@ from app.core.shared.entities.value_objects.value_object import ValueObject
 from dataclasses import dataclass
 import re
 
+
 @dataclass(frozen=True)
 class UserName(ValueObject, str):
     value: str
