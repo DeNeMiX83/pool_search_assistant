@@ -4,6 +4,14 @@
 Ссылка на документацию по API: https://miheev.su/pool/api/v1/docs
 
 В дирректории docs находится более подробная пояснительная записка к проекту()
+
+![](https://img.shields.io/badge/-Python-386e9d?style=flat&logo=Python&logoColor=ffd241) 
+![](https://img.shields.io/badge/FastAPI-109989?style=flat&logo=fastapi&logoColor=white) 
+![](https://img.shields.io/badge/-Postgresql-%232c3e50?style=flat&logo=Postgresql) 
+![](https://img.shields.io/badge/redis-%23DD0031.svg?&style=flat&logo=redis&logoColor=white) 
+![](https://img.shields.io/badge/-sqlalchemy-4479A7?style=flat&&logoColor=ffffff) 
+![](https://img.shields.io/badge/-Docker-46a2f1?style=flat&logo=docker&logoColor=white) 
+![](https://img.shields.io/badge/-Nginx-009639?style=flat&logo=nginx)
 ## Функционал:
 - Авторизация пользователей через сессии
 - Сохранение информации о понравившихся бассейнах пользователя
