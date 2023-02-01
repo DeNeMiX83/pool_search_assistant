@@ -31,4 +31,3 @@ def user_mapping(mapper_registry):
         entities.User, table,
     )
 
-

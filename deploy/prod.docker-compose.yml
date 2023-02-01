@@ -26,6 +26,8 @@ services:
     environment:
       - POSTGRES_HOST=db
       - REDIS_HOST=redis
+    env_file:
+      - fileName
   
   redis:
     container_name: redis
@@ -36,4 +38,4 @@ services:
       - db
 
 volumes:
-  pool_search_assistant_database_data:
+ pool_search_assistant_database_data:

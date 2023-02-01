@@ -25,12 +25,18 @@ class PoolAnalysisImp(PoolAnalysis):
     def clean_up_data(self) -> None:
         self.metadata = self.metadata.dropna()
         self.data_for_analysis = self.metadata
-        self.data_for_analysis = self.data_for_analysis.drop("global_id", axis=1)
-        self.data_for_analysis = self.data_for_analysis.drop("ObjectName", axis=1)
+        self.data_for_analysis = self.data_for_analysis.drop(
+            "global_id", axis=1
+        )
+        self.data_for_analysis = self.data_for_analysis.drop(
+            "ObjectName", axis=1
+        )
 
     def create_df_with_glued_columns(self) -> None:
         self.metadata_glued_columns = pd.DataFrame(
-            columns=["glued_columns"], index=self.data_for_analysis.index, data=""
+            columns=["glued_columns"],
+            index=self.data_for_analysis.index,
+            data=""
         )
 
         for column in self.data_for_analysis.columns:
@@ -40,7 +46,9 @@ class PoolAnalysisImp(PoolAnalysis):
 
     def calculate_vectors_by_pool(self, pool_analysis: entities.Pool) -> None:
         vectorizer = TfidfVectorizer()
-        vectors = vectorizer.fit_transform(self.metadata_glued_columns["glued_columns"])
+        vectors = vectorizer.fit_transform(
+            self.metadata_glued_columns["glued_columns"]
+        )
 
         like = self.pool_to_str(pool_analysis)
 

@@ -25,13 +25,14 @@ router = APIRouter()
 async def register_user(
     user: dto.UserRegister,
     usecase: RegisterUserUseCase = Depends(provide_register_user_stub),
-    response: Response = Response(),
 ):
     try:
         await usecase.execute(user)
     except AuthError as e:
-        response.status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
-        return {"message": str(e)}
+        return HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail=str(e),
+        )
     return {"message": "User created successfully"}
 
 
