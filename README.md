@@ -27,16 +27,22 @@
 
 ## Основные кейсы:
 - Регистрация
+
 ![](docs/register.png)
+
 - Авторизация
+
 ![](docs/authorise.png)
+
 - Получение рекомендаций
+
 ![](docs/recomended.png)
 
 ## Архитектура:
 Монолит (Clean Arhitecture).
 
 ### Разделение слоев, и направления зависимостей.
+
 ![](docs/clean%20arhitecture.png)
 
 ### ER-диаграмма базы данных PostgreSQL в нотации Мартина.
@@ -44,4 +50,6 @@
 <img src="docs/er%20%D0%B4%D0%B8%D0%B0%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B0.png"  width="300">
 
 ### Обощенная диаграмма классов.
+
 ![](docs/uml.png)
+
