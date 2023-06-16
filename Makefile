@@ -19,7 +19,7 @@ migrate-up:
 	poetry run alembic -c deploy/alembic.ini upgrade head
 
 compose-build:
-	docker compose -f ./deploy/prod.docker-compose.yml --env-file deploy/.env build
+	docker compose -f ./deploy/prod.docker-compose.yml --env-file deploy/.env -p $(PROJECT_NAME) build
 
 compose-up:
 	docker compose -f ./deploy/prod.docker-compose.yml --env-file deploy/.env -p $(PROJECT_NAME) up
