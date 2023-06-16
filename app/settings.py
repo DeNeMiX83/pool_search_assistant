@@ -59,8 +59,6 @@ class Settings(BaseSettings):
     port: int = Field(..., env='HOST_BACKEND_PORT')
     secret: str = Field(..., env='SECRET')
     root_path: str = Field(..., env='ROOT_PATH')
-
-    api_url: str = Field(..., env='API_URL')
     docs_url: str = Field(..., env='DOCS_URL')
 
     postgres: PostgresSettings = PostgresSettings()
