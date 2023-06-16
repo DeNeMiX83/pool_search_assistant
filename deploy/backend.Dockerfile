@@ -15,5 +15,4 @@ RUN poetry install --without dev --no-root
 COPY app ./app
 COPY deploy ./deploy
 COPY Makefile ./
-RUN make migrate-create
 CMD make migrate-up && make run-api

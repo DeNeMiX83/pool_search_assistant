@@ -1,2 +1,2 @@
 from .pool import Pool # noqa
-from .like_pools import PoolLike # noqa
+from .pool_like import PoolLike # noqa
