@@ -5,6 +5,6 @@ from app.settings import Settings
 
 settings = Settings()
 
-router = APIRouter(prefix=settings.api_url)
+router = APIRouter()
 router.include_router(pools.router, prefix="/pools", tags=["pools"])
 router.include_router(users.router, prefix="/users", tags=["users"])
