@@ -22,10 +22,15 @@ compose-build:
 	docker compose -f ./deploy/prod.docker-compose.yml --env-file deploy/.env build
 
 compose-up:
-	docker compose -f ./deploy/prod.docker-compose.yml --env-file deploy/.env -p ${PROJECT_NAME} up
+	docker compose -f ./deploy/prod.docker-compose.yml --env-file deploy/.env -p $(PROJECT_NAME) up
+
+.PHONY: compose-logs
+compose-logs:
+	docker compose -f $./deploy/prod.docker-compose.yml --env-file deploy/.env \
+	-p $(PROJECT_NAME) logs -f
 
 compose-update-dataset:
-	docker exec -it ${PROJECT_NAME}_backend make update-dataset
+	docker exec -it $(PROJECT_NAME)_backend make update-dataset
 
 docker-rm-volume:
-	docker volume rm -f ${PROJECT_NAME}_database_data
+	docker volume rm -f $(PROJECT_NAME)_database_data
