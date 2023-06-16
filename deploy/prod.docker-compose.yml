@@ -23,11 +23,8 @@ services:
     depends_on:
       - db
       - redis
-    environment:
-      - POSTGRES_HOST=db
-      - REDIS_HOST=redis
     env_file:
-      - fileName
+      - .env
   
   redis:
     container_name: redis
